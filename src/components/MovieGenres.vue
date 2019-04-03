@@ -1,24 +1,23 @@
 <template>
     <div>
+        <label>Generos</label>
         <dropdown :options="arrayOfObjects" :selected="object" v-on:updateOption="methodToRunOnSelect"></dropdown>
     </div>
 </template>
 
 
 <script>
-import dropdown from 'vue-dropdowns';
-import storage from '../storage.js';
+import dropdown from 'vue-dropdowns'
+import storage from '../storage.js'
 import axios from 'axios'
 
-
 export default {
-    
+     
      data() {
           return {
-            
             arrayOfObjects: [],
             object: {
-              name: 'Object Name',
+              name: 'Genres',
             }
           }
         },
@@ -37,22 +36,8 @@ export default {
           fetchGenres(){
                 axios.get(this.request)
                 .then(function(resp){
-                    let data = resp.data;
-                
-                resp.data.genres.forEach(function (value, key) {
-                    //this.arrayOfObjects.push(value.Object);
-                    var datav = {
-                        "id": value.id,
-                        "name": value.name
-                    }
-                    console.log(datav);
+                this.arrayOfObjects = resp.data.genres;
 
-                    this.arrayOfObjects.push(JSON.stringify(datav));
-                    console.log(value);
-                    console.log(key);
-            });  
-                //this.arrayOfObjects = JSON.parse(resp.data.genres);  
-          
             }.bind(this))
             .catch(function(error) {
                 this.$router.push({ name: '404' });
@@ -63,5 +48,4 @@ export default {
             this.fetchGenres();
         }
       }
-      
 </script>

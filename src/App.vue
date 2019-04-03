@@ -30,6 +30,8 @@ import MoviePopup from './components/MoviePopup.vue'
 
 export default {
   name: 'app',
+  URL_API:'',
+  URL:'',
   components: { Navigation, MoviePopup},
   data(){
     return{
@@ -48,13 +50,13 @@ export default {
     // User Session Methods
     requestToken(){
       storage.sessionId = null;
-      axios.get(`https://api.themoviedb.org/3/authentication/token/new?api_key=${storage.apiKey}`)
+      axios.get(this.URL_API+`authentication/token/new?api_key=${storage.apiKey}`)
       .then(function(resp){
           if(typeof resp.data == 'string') {
              resp.data = JSON.parse(resp.data);
           }
           let data = resp.data;
-          window.location.href = `https://www.themoviedb.org/authenticate/${data.request_token}?redirect_to=${location.protocol}//${location.host}/profile`
+          window.location.href = this.URL + `/${data.request_token}?redirect_to=${location.protocol}//${location.host}/profile`
       }.bind(this));
     },
     setUserStatus(){
@@ -125,6 +127,10 @@ export default {
     if (this.isTouchDevice()) {
       document.querySelector('body').classList.add('touch');
     }
+    axios.get("environment/config.json").then(response => {
+      this.URL_API = response.data.URL_API;
+      this.URL = response.data.URL;
+    });
   }
 }
 </script>
@@ -132,6 +138,7 @@ export default {
 <style lang="scss">
 @import "./src/scss/variables";
 @import "./src/scss/media-queries";
+
 *{
   box-sizing: border-box;
 }

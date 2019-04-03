@@ -2,9 +2,9 @@
   <section class="home">
     <header class="home__header">
       <div class="home__header-wrap">
-        <h1 class="home__header-title">The Movie DB App</h1>
+        <h1 class="home__header-title">The Movie DB App by Fast Shop</h1>
         <strong class="home__header-subtitle">Made with Vue.js</strong>
-        <a href="https://github.com/dmtrbrl/tmdb-app" target="_blank" class="home__header-link">
+        <a href="https://github.com/gercenio/fastshop_test" target="_blank" class="home__header-link">
           <svg class="home__header-link-icon">
             <use xlink:href="#iconGithub"></use>
           </svg>
@@ -12,8 +12,19 @@
         </a>
       </div>
     </header>
-    <div>
-      <movie-genres></movie-genres>
+    <div class="row">
+      <div class="span">
+        <movie-years></movie-years>
+      </div>
+      <div class="span">
+        <movie-sorted></movie-sorted>
+      </div>
+      <div class="span">
+        <movie-genres></movie-genres>
+      </div>
+      <div class="span">
+        <input id="search" name="search" />
+      </div>
     </div>
     <div>
       <movies-list v-for="item in listTypes" v-if="item.isCategory" :type="'component'" :mode="'collection'" :category="item.query" :shortList="true">  
@@ -28,9 +39,11 @@ import axios from 'axios'
 import storage from '../storage.js'
 import MoviesList from './MoviesList.vue'
 import MovieGenres from './MovieGenres.vue'
+import MovieYears from './MovieYears.vue'
+import MovieSorted from './MovieSorted.vue'
 
 export default {
-  components: { MoviesList, MovieGenres },
+  components: { MoviesList, MovieGenres, MovieYears, MovieSorted },
   data(){
     return {
       listTypes: storage.listTypes
